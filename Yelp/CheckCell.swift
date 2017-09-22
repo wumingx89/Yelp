@@ -10,9 +10,17 @@ import UIKit
 
 class CheckCell: UITableViewCell {
 
+    @IBOutlet weak var cellView: UIView!
+    @IBOutlet weak var settingLabel: UILabel!
+    
+    var selectActionHandler = { () in }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
+        selectionStyle = .none
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTap))
+        addGestureRecognizer(tapGesture)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -20,5 +28,8 @@ class CheckCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
+    
+    func didTap() {
+        selectActionHandler()
+    }
 }

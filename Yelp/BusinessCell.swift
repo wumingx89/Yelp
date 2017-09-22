@@ -18,9 +18,10 @@ class BusinessCell: UITableViewCell {
     @IBOutlet weak var reviewsCountLabel: UILabel!
     @IBOutlet weak var categoriesLabel: UILabel!
     
-    var business: Business! {
+    fileprivate var resultNumber: Int!
+    fileprivate var business: Business! {
         didSet {
-            nameLabel.text = business.name
+            nameLabel.text = "\(resultNumber + 1). \(business.name ?? "")"
             thumbImageView.setImageWith(business.imageURL!)
             ratingImageView.setImageWith(business.ratingImageURL!)
             distanceLabel.text = business.distance
@@ -28,6 +29,11 @@ class BusinessCell: UITableViewCell {
             reviewsCountLabel.text = business.reviewCount!.stringValue + " Reviews"
             categoriesLabel.text = business.categories
         }
+    }
+    
+    func setCell(business: Business, number: Int) {
+        self.resultNumber = number
+        self.business = business
     }
     
     override func awakeFromNib() {

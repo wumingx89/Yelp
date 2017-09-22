@@ -24,7 +24,8 @@ class FiltersViewController: UIViewController {
     
     var categories: [[String: String]]!
     var switchStates: [Int: Bool] = [:]
-    fileprivate var expandStates = [Section: Bool]()
+    
+    fileprivate var expandedSections = Set<Section>()
     
     // MARK: Life cycle functions
     override func viewDidLoad() {
@@ -72,23 +73,46 @@ extension FiltersViewController: UITableViewDelegate, UITableViewDataSource {
         return Section.sections.count
     }
     
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        switch Section.sectionFromIndex(section) {
+        case .categoriesExpand, .distanceExpand, .sortExpand:
+            return 0.0
+        default:
+            return 45.0
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        if let view = view as? UITableViewHeaderFooterView {
+            view.textLabel?.font = UIFont.boldSystemFont(ofSize: 15)
+        }
+    }
+    
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return Section.sections[section].rawValue
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch Section.sectionFromIndex(section) {
+        let sectionType = Section.sectionFromIndex(section)
+        switch sectionType {
+        case .popular, .sort, .distance:
+            return 1
         case .categories:
             return 3
-        default:
-            return 1
+        case .distanceExpand, .categoriesExpand, .sortExpand:
+            return expandedSections.contains(sectionType) ? 2 : 0
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let normalCell = UITableViewCell()
+        
         let sectionType = Section.sectionFromIndex(indexPath.section)
-        let cell = filtersTable.dequeueReusableCell(withIdentifier: Section.getCellIdentifier(for: sectionType), for: indexPath)
+        let cell = filtersTable.dequeueReusableCell(
+            withIdentifier: Section.getCellIdentifier(for: sectionType),
+            for: indexPath
+        )
+        
         switch sectionType {
         case .popular:
             guard let popularCell = cell as? SwitchCell else {
@@ -96,12 +120,33 @@ extension FiltersViewController: UITableViewDelegate, UITableViewDataSource {
             }
             popularCell.switchLabel.text = "Offering a deal"
             popularCell.onSwitch.isOn = false
-        default:
-            guard let distanceCell = cell as? SwitchCell else {
+            popularCell.toggleSwitchHandler = { (isOn: Bool) in
+                print(isOn)
+            }
+        case .categories, .categoriesExpand:
+            guard let categoryCell = cell as? SwitchCell else {
                 return normalCell
             }
-            distanceCell.switchLabel.text = "1 mile"
-            distanceCell.onSwitch.isOn = false
+            categoryCell.switchLabel.text = "Afghan"
+            categoryCell.onSwitch.isOn = false
+            categoryCell.toggleSwitchHandler = { (isOn: Bool) in
+                print(isOn)
+            }
+        case .sort, .distance, .sortExpand, .distanceExpand:
+            guard let cell = cell as? CheckCell else {
+                return normalCell
+            }
+            cell.settingLabel.text = "Best Match"
+            cell.selectActionHandler = {
+                print("selected")
+                let mappedType = Section.map[sectionType]!
+                if self.expandedSections.contains(mappedType) {
+                    self.expandedSections.remove(mappedType)
+                } else {
+                    self.expandedSections.insert(mappedType)
+                }
+                self.filtersTable.reloadSections(IndexSet.init(integer: indexPath.section), with: .fade)
+            }
         }
         
         return cell
@@ -119,10 +164,21 @@ extension FiltersViewController {
     fileprivate enum Section: String {
         case popular = "Most Popular"
         case distance = "Distance"
+        case distanceExpand = ""
         case sort = "Sort by"
+        case sortExpand = " "
         case categories = "Categories"
+        case categoriesExpand = "  "
         
-        static let sections = [popular, distance, sort, categories]
+        static let sections = [popular, distance, distanceExpand, sort, sortExpand, categories, categoriesExpand]
+        static let map = [
+            distance: distanceExpand,
+            distanceExpand: distanceExpand,
+            sort: sortExpand,
+            sortExpand: sortExpand,
+            categories: categoriesExpand,
+            categoriesExpand: categoriesExpand
+        ]
         
         static func sectionFromIndex(_ section: Int) -> Section {
             return sections[section]
@@ -130,7 +186,7 @@ extension FiltersViewController {
         
         static func getCellIdentifier(for section: Section) -> String {
             switch section {
-            case .popular, .categories:
+            case .popular, .categories, .categoriesExpand:
                 return "SwitchCell"
             default:
                 return "CheckCell"
@@ -139,12 +195,12 @@ extension FiltersViewController {
     }
 }
 
-// MARK:- SwitchCell delegate extension
-extension FiltersViewController: SwitchCellDelegate {
-    func switchCell(_ switchCell: SwitchCell, didChangeValue value: Bool) {
-        if let indexPath = filtersTable.indexPath(for: switchCell) {
-            print(indexPath.row)
-            switchStates[indexPath.row] = value
-        }
-    }
-}
+//// MARK:- SwitchCell delegate extension
+//extension FiltersViewController: SwitchCellDelegate {
+//    func switchCell(_ switchCell: SwitchCell, didChangeValue value: Bool) {
+//        if let indexPath = filtersTable.indexPath(for: switchCell) {
+//            print(indexPath.row)
+//            switchStates[indexPath.row] = value
+//        }
+//    }
+//}

@@ -20,6 +20,7 @@
 		B91E68421F724B9000FC2D0F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91E68411F724B9000FC2D0F /* Constants.swift */; };
 		B91E68701F73904D00FC2D0F /* YelpFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91E686F1F73904D00FC2D0F /* YelpFilters.swift */; };
 		B91E68761F74E39E00FC2D0F /* CheckCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91E68751F74E39E00FC2D0F /* CheckCell.swift */; };
+		B91E68781F75870A00FC2D0F /* InfiniteScrollActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91E68771F75870A00FC2D0F /* InfiniteScrollActivityView.swift */; };
 		C84F8EC0AF45015082203BEA /* Pods_Yelp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CB69A2C6E3D46C09063DC18 /* Pods_Yelp.framework */; };
 /* End PBXBuildFile section */
 
@@ -42,6 +43,7 @@
 		B91E68411F724B9000FC2D0F /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		B91E686F1F73904D00FC2D0F /* YelpFilters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YelpFilters.swift; sourceTree = "<group>"; };
 		B91E68751F74E39E00FC2D0F /* CheckCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckCell.swift; sourceTree = "<group>"; };
+		B91E68771F75870A00FC2D0F /* InfiniteScrollActivityView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfiniteScrollActivityView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +133,7 @@
 				B91E683B1F722A4D00FC2D0F /* BusinessCell.swift */,
 				B91E683D1F7246C100FC2D0F /* SwitchCell.swift */,
 				B91E68751F74E39E00FC2D0F /* CheckCell.swift */,
+				B91E68771F75870A00FC2D0F /* InfiniteScrollActivityView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -242,11 +245,13 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-Yelp/Pods-Yelp-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
 				"${BUILT_PRODUCTS_DIR}/BDBOAuth1Manager/BDBOAuth1Manager.framework",
+				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFNetworking.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BDBOAuth1Manager.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -280,6 +285,7 @@
 				B91E68761F74E39E00FC2D0F /* CheckCell.swift in Sources */,
 				B91E68401F7248EC00FC2D0F /* FiltersViewController.swift in Sources */,
 				B91E68201F70D88F00FC2D0F /* AppDelegate.swift in Sources */,
+				B91E68781F75870A00FC2D0F /* InfiniteScrollActivityView.swift in Sources */,
 				B91E68391F70DAFB00FC2D0F /* BusinessesViewController.swift in Sources */,
 				B91E683C1F722A4D00FC2D0F /* BusinessCell.swift in Sources */,
 				B91E683E1F7246C100FC2D0F /* SwitchCell.swift in Sources */,

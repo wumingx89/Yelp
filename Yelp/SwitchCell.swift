@@ -8,16 +8,12 @@
 
 import UIKit
 
-@objc protocol SwitchCellDelegate {
-    @objc optional func switchCell(_ switchCell: SwitchCell, didChangeValue value: Bool)
-}
-
 class SwitchCell: UITableViewCell {
 
     @IBOutlet weak var switchLabel: UILabel!
     @IBOutlet weak var onSwitch: UISwitch!
     
-    weak var delegate: SwitchCellDelegate?
+    var toggleSwitchHandler = { (isOn: Bool) in }
     
     var category: [String: String]! {
         didSet {
@@ -27,6 +23,8 @@ class SwitchCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        selectionStyle = .none
         
         onSwitch.addTarget(self, action: #selector(switchValueChanged), for: .valueChanged)
     }
@@ -38,6 +36,6 @@ class SwitchCell: UITableViewCell {
     }
 
     func switchValueChanged() {
-        delegate?.switchCell?(self, didChangeValue: onSwitch.isOn)
+        toggleSwitchHandler(onSwitch.isOn)
     }
 }
