@@ -6,7 +6,10 @@
 //  Copyright © 2017 Wuming Xie. All rights reserved.
 //
 
+import UIKit
+
 struct Constants {
+    static let yelpRed = UIColor(red: 0.83, green: 0.14, blue: 0.14, alpha: 1.0)
     static let yelpCategories = [
         ["name" : "Afghan", "code": "afghani"],
         ["name" : "African", "code": "african"],

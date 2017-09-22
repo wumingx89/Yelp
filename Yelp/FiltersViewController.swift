@@ -20,18 +20,21 @@ class FiltersViewController: UIViewController {
     // MARK: Delegates
     weak var filtersVCDelegate: FiltersViewControllerDelegate?
     
+    var filters: YelpFilters!
+    
     var categories: [[String: String]]!
     var switchStates: [Int: Bool] = [:]
+    fileprivate var expandStates = [Section: Bool]()
     
     // MARK: Life cycle functions
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        filtersTable.delegate = self
-        filtersTable.dataSource = self
-        
+        filters = YelpFilters()
         categories = Constants.yelpCategories
+        
+        tableViewSetup()
     }
 
     override func didReceiveMemoryWarning() {
@@ -45,44 +48,94 @@ class FiltersViewController: UIViewController {
     }
 
     @IBAction func onSearch(_ sender: UIBarButtonItem) {
-        let filters = [String: Int]()
-        let selected = [String]()
+        var filters = [String: AnyObject]()
+        var selected = [String]()
         for (row, isOn) in switchStates {
             if isOn {
-                selected.append(categories[row]["code"])
+                selected.append(categories[row]["code"]!)
             }
         }
+        
+        if selected.count > 0 {
+            filters["categories"] = selected as AnyObject
+        }
         filtersVCDelegate?.filtersViewController?(self, didUpdateFilters: filters)
+        
+        dismiss(animated: true, completion: nil)
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 
 // MARK:- Table view delegate/datasource extension
 extension FiltersViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return Section.sections.count
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return Section.sections[section].rawValue
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return categories.count
+        switch Section.sectionFromIndex(section) {
+        case .categories:
+            return 3
+        default:
+            return 1
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = filtersTable.dequeueReusableCell(withIdentifier: "SwitchCell", for: indexPath) as? SwitchCell else {
-            return SwitchCell()
+        let normalCell = UITableViewCell()
+        let sectionType = Section.sectionFromIndex(indexPath.section)
+        let cell = filtersTable.dequeueReusableCell(withIdentifier: Section.getCellIdentifier(for: sectionType), for: indexPath)
+        switch sectionType {
+        case .popular:
+            guard let popularCell = cell as? SwitchCell else {
+                return normalCell
+            }
+            popularCell.switchLabel.text = "Offering a deal"
+            popularCell.onSwitch.isOn = false
+        default:
+            guard let distanceCell = cell as? SwitchCell else {
+                return normalCell
+            }
+            distanceCell.switchLabel.text = "1 mile"
+            distanceCell.onSwitch.isOn = false
         }
         
-        cell.category = categories[indexPath.row]
-        cell.onSwitch.isOn = switchStates[indexPath.row] ?? false
-        cell.delegate = self
-        
         return cell
+    }
+    
+    fileprivate func tableViewSetup() {
+        filtersTable.delegate = self
+        filtersTable.dataSource = self
+        filtersTable.rowHeight = UITableViewAutomaticDimension
+        filtersTable.estimatedRowHeight = 32
+    }
+}
+
+extension FiltersViewController {
+    fileprivate enum Section: String {
+        case popular = "Most Popular"
+        case distance = "Distance"
+        case sort = "Sort by"
+        case categories = "Categories"
+        
+        static let sections = [popular, distance, sort, categories]
+        
+        static func sectionFromIndex(_ section: Int) -> Section {
+            return sections[section]
+        }
+        
+        static func getCellIdentifier(for section: Section) -> String {
+            switch section {
+            case .popular, .categories:
+                return "SwitchCell"
+            default:
+                return "CheckCell"
+            }
+        }
     }
 }
 
