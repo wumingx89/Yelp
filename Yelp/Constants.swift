@@ -8,8 +8,30 @@
 
 import UIKit
 
+enum CellType: String {
+    case businessCell = "BusinessCell"
+    case switchCell = "SwitchCell"
+    case checkCell = "CheckCell"
+}
+
 struct Constants {
     static let yelpRed = UIColor(red: 0.83, green: 0.14, blue: 0.14, alpha: 1.0)
+    
+    static let maxDistance = 40000
+    
+    static let distances = [
+        ["name": "5 blocks", "code": 400],
+        ["name": "10 blocks", "code": 800],
+        ["name": "1 mile", "code": 1600],
+        ["name": "25 miles", "code": 40000]
+    ]
+    
+    static let sortModes = [
+        ["name": "Best Match", "code": 0],
+        ["name": "Distance", "code": 1],
+        ["name": "Highest Rated", "code": 2]
+    ]
+    
     static let yelpCategories = [
         ["name" : "Afghan", "code": "afghani"],
         ["name" : "African", "code": "african"],

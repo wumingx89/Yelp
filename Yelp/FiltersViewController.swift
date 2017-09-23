@@ -9,13 +9,30 @@
 import UIKit
 
 @objc protocol FiltersViewControllerDelegate {
-    @objc optional func filtersViewController(_ filtersViewController: FiltersViewController, didUpdateFilters filters: [String: Any])
+    @objc optional func filtersViewController(
+        _ filtersViewController: FiltersViewController,
+        didUpdateFilters filters: [String: Any]
+    )
 }
+
+//struct SectionStruct {
+//    let title: String
+//    let expanded: Bool
+//    let cells: [Cell]
+//    var selected: Int
+//}
+//
+//struct Cell {
+//    let setting: String
+//    let cellType: CellType
+//}
 
 // MARK:- FiltersViewController
 class FiltersViewController: UIViewController {
 
     @IBOutlet weak var filtersTable: UITableView!
+    
+    //let popularSection = SectionStruct(title: "Popular", expanded: true, cells: [], selected: 0)
     
     // MARK: Delegates
     weak var filtersVCDelegate: FiltersViewControllerDelegate?
@@ -75,8 +92,6 @@ extension FiltersViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         switch Section.sectionFromIndex(section) {
-        case .categoriesExpand, .distanceExpand, .sortExpand:
-            return 0.0
         default:
             return 45.0
         }
@@ -95,12 +110,12 @@ extension FiltersViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let sectionType = Section.sectionFromIndex(section)
         switch sectionType {
-        case .popular, .sort, .distance:
+        case .popular:
             return 1
+        case .sort, .distance:
+            return expandedSections.contains(sectionType) ? 3 : 1
         case .categories:
             return 3
-        case .distanceExpand, .categoriesExpand, .sortExpand:
-            return expandedSections.contains(sectionType) ? 2 : 0
         }
     }
     
@@ -123,7 +138,7 @@ extension FiltersViewController: UITableViewDelegate, UITableViewDataSource {
             popularCell.toggleSwitchHandler = { (isOn: Bool) in
                 print(isOn)
             }
-        case .categories, .categoriesExpand:
+        case .categories:
             guard let categoryCell = cell as? SwitchCell else {
                 return normalCell
             }
@@ -132,18 +147,16 @@ extension FiltersViewController: UITableViewDelegate, UITableViewDataSource {
             categoryCell.toggleSwitchHandler = { (isOn: Bool) in
                 print(isOn)
             }
-        case .sort, .distance, .sortExpand, .distanceExpand:
+        case .sort, .distance:
             guard let cell = cell as? CheckCell else {
                 return normalCell
             }
             cell.settingLabel.text = "Best Match"
             cell.selectActionHandler = {
-                print("selected")
-                let mappedType = Section.map[sectionType]!
-                if self.expandedSections.contains(mappedType) {
-                    self.expandedSections.remove(mappedType)
+                if self.expandedSections.contains(sectionType) {
+                    self.expandedSections.remove(sectionType)
                 } else {
-                    self.expandedSections.insert(mappedType)
+                    self.expandedSections.insert(sectionType)
                 }
                 self.filtersTable.reloadSections(IndexSet.init(integer: indexPath.section), with: .fade)
             }
@@ -164,21 +177,10 @@ extension FiltersViewController {
     fileprivate enum Section: String {
         case popular = "Most Popular"
         case distance = "Distance"
-        case distanceExpand = ""
         case sort = "Sort by"
-        case sortExpand = " "
         case categories = "Categories"
-        case categoriesExpand = "  "
         
-        static let sections = [popular, distance, distanceExpand, sort, sortExpand, categories, categoriesExpand]
-        static let map = [
-            distance: distanceExpand,
-            distanceExpand: distanceExpand,
-            sort: sortExpand,
-            sortExpand: sortExpand,
-            categories: categoriesExpand,
-            categoriesExpand: categoriesExpand
-        ]
+        static let sections = [popular, distance, sort, categories]
         
         static func sectionFromIndex(_ section: Int) -> Section {
             return sections[section]
@@ -186,7 +188,7 @@ extension FiltersViewController {
         
         static func getCellIdentifier(for section: Section) -> String {
             switch section {
-            case .popular, .categories, .categoriesExpand:
+            case .popular, .categories:
                 return "SwitchCell"
             default:
                 return "CheckCell"
@@ -194,13 +196,3 @@ extension FiltersViewController {
         }
     }
 }
-
-//// MARK:- SwitchCell delegate extension
-//extension FiltersViewController: SwitchCellDelegate {
-//    func switchCell(_ switchCell: SwitchCell, didChangeValue value: Bool) {
-//        if let indexPath = filtersTable.indexPath(for: switchCell) {
-//            print(indexPath.row)
-//            switchStates[indexPath.row] = value
-//        }
-//    }
-//}

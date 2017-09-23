@@ -10,20 +10,17 @@ import Foundation
 
 class YelpFilters {
     
-    enum FilterName: String {
-        case deal = "Offering a Deal"
-        case tenBlocks = "10 blocks"
-        case oneMile = "1 mile"
-        case fiveMiles = "5 miles"
-        case bestMatch = "Best Match"
-        
-        static let distances = [tenBlocks, oneMile, fiveMiles]
-    }
-    
+    fileprivate var categories = Set<String>()
     var searchString = ""
     var deals = false
-    fileprivate var categories = Set<String>()
-    
+    var sort = YelpSortMode.bestMatched
+    var distance = 1600 {
+        didSet {
+            if distance > Constants.maxDistance {
+                distance = Constants.maxDistance
+            }
+        }
+    }
     
     func toggleCategory(_ name: String) {
         if categories.contains(name) {
