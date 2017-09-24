@@ -20,6 +20,7 @@ class BusinessesViewController: UIViewController {
     fileprivate var isMoreDataLoading = false
     
     var businesses: [Business]!
+    var filters = YelpFilters()
     
     fileprivate func getInfiniteScrollFrame() -> CGRect {
         return CGRect(
@@ -50,33 +51,7 @@ class BusinessesViewController: UIViewController {
         loadMoreView = InfiniteScrollActivityView(frame: getInfiniteScrollFrame())
         businessesTable.contentInset.bottom += InfiniteScrollActivityView.defaultHeight
         
-        MBProgressHUD.showAdded(to: self.view, animated: true)
-        Business.searchWithTerm(term: "Thai", completion: { (businesses: [Business]?, error: Error?) -> Void in
-            
-            self.businesses = businesses
-            self.businessesTable.reloadData()
-            if let businesses = businesses {
-                for business in businesses {
-                    print(business.name!)
-                    print(business.address!)
-                }
-            }
-            MBProgressHUD.hide(for: self.view, animated: true)
-            
-            }
-        )
-        
-        /* Example of Yelp search with more search options specified
-         Business.searchWithTerm("Restaurants", sort: .Distance, categories: ["asianfusion", "burgers"], deals: true) { (businesses: [Business]!, error: NSError!) -> Void in
-         self.businesses = businesses
-         
-         for business in businesses {
-         print(business.name!)
-         print(business.address!)
-         }
-         }
-         */
-        
+        newSearch()
     }
     
     override func didReceiveMemoryWarning() {
@@ -90,9 +65,22 @@ class BusinessesViewController: UIViewController {
         if let navigationController = segue.destination as? UINavigationController {
             let filtersViewController = navigationController.topViewController as! FiltersViewController
             filtersViewController.filtersVCDelegate = self
+            filtersViewController.filters = YelpFilters(filters)
         }
     }
     
+    fileprivate func newSearch() {
+        MBProgressHUD.showAdded(to: self.view, animated: true)
+        YelpFusionClient.shared.search(filters: filters, offset: nil) { (businesses, error) in
+            self.businesses = businesses ?? [Business]()
+            self.businessesTable.reloadData()
+            self.businessesTable.contentOffset = CGPoint(x: 0, y: -self.businessesTable.contentInset.top)
+            if let error = error {
+                print(error.localizedDescription)
+            }
+            MBProgressHUD.hide(for: self.view, animated: true)
+        }
+    }
 }
 
 // MARK:- Table view delegate/data source extension
@@ -132,6 +120,12 @@ extension BusinessesViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
+        let searchText = searchBar.text?.trimmingCharacters(in: CharacterSet.whitespaces) ?? ""
+        
+        if filters.searchString != searchText {
+            filters.searchString = searchText
+            newSearch()
+        }
     }
 }
 
@@ -162,16 +156,8 @@ extension BusinessesViewController: UIScrollViewDelegate {
 
 // MARK:- FiltersViewControllerDelegate extension
 extension BusinessesViewController: FiltersViewControllerDelegate {
-    func filtersViewController(_ filtersViewController: FiltersViewController, didUpdateFilters filters: [String : Any]) {
-        
-        let categories = filters["categories"] as? [String]
-        Business.searchWithTerm(
-        term: "Restaurants",
-        sort: nil,
-        categories: categories,
-        deals: nil) { (businesses, error) in
-            self.businesses = businesses
-            self.businessesTable.reloadData()
-        }
+    func filtersViewController(_ filtersViewController: FiltersViewController, didUpdateFilters filters: YelpFilters) {
+        self.filters = filters
+        newSearch()
     }
 }

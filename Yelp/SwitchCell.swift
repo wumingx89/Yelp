@@ -8,34 +8,51 @@
 
 import UIKit
 
-class SwitchCell: UITableViewCell {
+class SwitchCell: FilterCell {
 
     @IBOutlet weak var switchLabel: UILabel!
     @IBOutlet weak var onSwitch: UISwitch!
     
-    var toggleSwitchHandler = { (isOn: Bool) in }
-    
-    var category: [String: String]! {
-        didSet {
-            switchLabel.text = category["name"]
-        }
-    }
+    var switchToggleHandler = { () in }
+    var code: String!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
         selectionStyle = .none
+    }
+    
+    func toggleAttribute() {
+        filters.toggleAttribute(onSwitch.isOn, code: code)
+    }
+    
+    func toggleCategory() {
+        filters.toggleCategory(row: indexPath.row, isOn: onSwitch.isOn)
+    }
+    
+    func toggleOpenNow() {
+        filters.openNow = onSwitch.isOn
+    }
+    
+    override func filterWasSet() {
+        // Remove any targets on the switch
+        onSwitch.removeTarget(nil, action: nil, for: .valueChanged)
         
-        onSwitch.addTarget(self, action: #selector(switchValueChanged), for: .valueChanged)
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
-    func switchValueChanged() {
-        toggleSwitchHandler(onSwitch.isOn)
+        // Set up cell
+        let data = FiltersViewController.tableStructure[indexPath.section].data[indexPath.row]
+        switchLabel.text = data["name"]
+        code = data["code"]!
+        let isOn: Bool
+        switch code {
+        case "deals", "hot_and_new":
+            isOn = filters.attributes.contains(code)
+            onSwitch.addTarget(self, action: #selector(toggleAttribute), for: .valueChanged)
+        case "open_now":
+            isOn = filters.openNow
+            onSwitch.addTarget(self, action: #selector(toggleOpenNow), for: .valueChanged)
+        default:
+            isOn = filters.categories.contains(code)
+            onSwitch.addTarget(self, action: #selector(toggleCategory), for: .valueChanged)
+        }
+        onSwitch.isOn = isOn
     }
 }

@@ -48,13 +48,13 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="0.07 mi" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PgO-9G-tcm">
                                                     <rect key="frame" x="325.5" y="10" width="41.5" height="14.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$$" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hOs-2D-w35">
                                                     <rect key="frame" x="351" y="29.5" width="16" height="14.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="88 Division St, Mission Bay" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ewQ-p2-K9P">
@@ -66,10 +66,10 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Thai, Seafood, Salad" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o36-hT-NAl">
                                                     <rect key="frame" x="81" y="68.5" width="116.5" height="14.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7Ug-3W-muK">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7Ug-3W-muK">
                                                     <rect key="frame" x="8" y="8" width="65" height="65"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="65" id="PFD-Zc-46v"/>
@@ -79,7 +79,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="469 Reviews" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Rb-no-gDe">
                                                     <rect key="frame" x="169" y="31.5" width="73" height="14.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -111,6 +111,7 @@
                                             <outlet property="categoriesLabel" destination="o36-hT-NAl" id="CDv-fK-Kxv"/>
                                             <outlet property="distanceLabel" destination="PgO-9G-tcm" id="hQM-qO-erb"/>
                                             <outlet property="nameLabel" destination="fuP-cn-Lhm" id="I3m-nz-B2c"/>
+                                            <outlet property="priceLabel" destination="hOs-2D-w35" id="19f-uV-SRk"/>
                                             <outlet property="ratingImageView" destination="pPG-MB-VZm" id="dng-Qd-Kld"/>
                                             <outlet property="reviewsCountLabel" destination="3Rb-no-gDe" id="kbf-Pa-3HV"/>
                                             <outlet property="thumbImageView" destination="7Ug-3W-muK" id="EmJ-IV-aA1"/>
@@ -134,6 +135,7 @@
                                 <segue destination="fhD-8X-BPO" kind="presentation" id="7hX-MN-Ef7"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Map" id="ajO-eQ-4jT"/>
                     </navigationItem>
                     <connections>
                         <outlet property="businessesTable" destination="E0m-i3-GTu" id="CMw-JC-S1q"/>
@@ -210,29 +212,40 @@
                                             <outlet property="switchLabel" destination="yg0-Gs-7Gf" id="rCu-HD-gzU"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="checkmark" indentationWidth="10" reuseIdentifier="CheckCell" rowHeight="108" id="bjq-3Y-B4D" customClass="CheckCell" customModule="Yelp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="126" width="375" height="108"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CheckCell" rowHeight="70" id="bjq-3Y-B4D" customClass="CheckCell" customModule="Yelp" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="126" width="375" height="70"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bjq-3Y-B4D" id="CVE-dD-oxq">
-                                            <rect key="frame" x="0.0" y="0.0" width="336" height="108"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="70"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1 mile" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uFL-1G-j6I">
-                                                    <rect key="frame" x="16" y="8" width="41" height="91.5"/>
+                                                    <rect key="frame" x="16" y="8" width="41" height="53.5"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ww4-s8-fES">
+                                                    <rect key="frame" x="327" y="19" width="32" height="32"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="32" id="btE-xd-Anq"/>
+                                                        <constraint firstAttribute="height" constant="32" id="mAW-Gb-ZFU"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="Ww4-s8-fES" secondAttribute="trailing" constant="16" id="EIh-SV-r2P"/>
+                                                <constraint firstItem="Ww4-s8-fES" firstAttribute="centerY" secondItem="uFL-1G-j6I" secondAttribute="centerY" id="LEj-ad-zXR"/>
                                                 <constraint firstItem="uFL-1G-j6I" firstAttribute="leading" secondItem="CVE-dD-oxq" secondAttribute="leading" constant="16" id="M2f-am-IfO"/>
                                                 <constraint firstItem="uFL-1G-j6I" firstAttribute="top" secondItem="CVE-dD-oxq" secondAttribute="top" constant="8" id="lAV-ov-gtv"/>
                                                 <constraint firstAttribute="bottom" secondItem="uFL-1G-j6I" secondAttribute="bottom" constant="8" id="rox-Bh-ue1"/>
+                                                <constraint firstItem="Ww4-s8-fES" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="uFL-1G-j6I" secondAttribute="trailing" constant="8" id="s4N-Z4-tLx"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <gestureRecognizers/>
                                         <connections>
                                             <outlet property="cellView" destination="CVE-dD-oxq" id="dYN-Om-GK5"/>
+                                            <outlet property="selectionImage" destination="Ww4-s8-fES" id="5bT-mQ-SzG"/>
                                             <outlet property="settingLabel" destination="uFL-1G-j6I" id="vd5-As-EQK"/>
                                         </connections>
                                     </tableViewCell>

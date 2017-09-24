@@ -10,16 +10,29 @@ import Foundation
 
 class YelpFilters {
     
-    fileprivate var categories = Set<String>()
-    var searchString = ""
-    var deals = false
-    var sort = YelpSortMode.bestMatched
-    var distance = 1600 {
-        didSet {
-            if distance > Constants.maxDistance {
-                distance = Constants.maxDistance
-            }
-        }
+    var searchString: String
+    var openNow: Bool
+    var categories: Set<String>
+    var attributes: Set<String>
+    var sort: Int
+    var distance: Int
+    
+    init() {
+        self.searchString = ""
+        self.openNow = false
+        self.categories = Set<String>()
+        self.attributes = Set<String>()
+        self.sort = 0
+        self.distance = 0
+    }
+    
+    init(_ filters: YelpFilters) {
+        self.searchString = filters.searchString
+        self.openNow = filters.openNow
+        self.categories = filters.categories
+        self.attributes = filters.attributes
+        self.sort = filters.sort
+        self.distance = filters.distance
     }
     
     func toggleCategory(_ name: String) {
@@ -29,8 +42,53 @@ class YelpFilters {
             categories.insert(name)
         }
     }
-}
-
-class FilterState {
     
+    func toggleAttribute(_ isOn: Bool, code: String) {
+        print("Deals now \(isOn)")
+        if isOn {
+            attributes.insert(code)
+        } else {
+            attributes.remove(code)
+        }
+    }
+    
+    func toggleCategory(row: Int, isOn: Bool) {
+        let code = Constants.yelpCategories[row]["code"]!
+        if isOn {
+            categories.insert(code)
+        } else {
+            categories.remove(code)
+        }
+        print("\(isOn ? "Added" : "Removed") \(code)")
+    }
+    
+    func setParams(params: inout [String: String]) {
+        if attributes.count > 0 {
+            params["attributes"] = attributes.joined(separator: ",")
+        }
+        
+        if categories.count > 0 {
+            params["categories"] = categories.joined(separator: ",")
+        }
+        
+        if !searchString.isEmpty {
+            params["term"] = searchString
+        }
+        
+        if sort > 0 {
+            params["sort_by"] = Constants.sortModes[sort]["code"]
+        }
+        
+        if distance > 0 {
+            params["radius"] = Constants.distances[distance]["code"]
+        }
+        
+        if openNow {
+            params["open_now"] = true.description
+        }
+    }
+    
+    static func getCode(options: [[String: String]], index: Int) -> String {
+        return options[index]["code"]!
+    }
 }

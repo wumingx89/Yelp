@@ -8,10 +8,11 @@
 
 import UIKit
 
-class CheckCell: UITableViewCell {
+class CheckCell: FilterCell {
 
     @IBOutlet weak var cellView: UIView!
     @IBOutlet weak var settingLabel: UILabel!
+    @IBOutlet weak var selectionImage: UIImageView!
     
     var selectActionHandler = { () in }
     
@@ -27,6 +28,24 @@ class CheckCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+    override func filterWasSet() {
+        let data: [String: String]!
+        let selectedRow = FiltersViewController.tableStructure[indexPath.section].selected[0]
+        selectionImage.image = nil
+        if FiltersViewController.tableStructure[indexPath.section].expanded {
+            data = FiltersViewController.tableStructure[indexPath.section].data[indexPath.row]
+            if indexPath.row == selectedRow {
+                selectionImage.image = #imageLiteral(resourceName: "check")
+                selectionImage.tintColor = Constants.yelpBlue
+            }
+        } else {
+            data = FiltersViewController.tableStructure[indexPath.section].data[selectedRow]
+            selectionImage.image = #imageLiteral(resourceName: "arrow_down")
+            selectionImage.tintColor = Constants.yelpMediumGrey
+        }
+        settingLabel.text = data["name"]
     }
     
     func didTap() {
