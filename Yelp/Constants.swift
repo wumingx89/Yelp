@@ -8,8 +8,42 @@
 
 import UIKit
 
+enum CellType: String {
+    case businessCell = "BusinessCell"
+    case switchCell = "SwitchCell"
+    case checkCell = "CheckCell"
+}
+
 struct Constants {
+    static let clientToken = "Bearer VWil-M93rbGRbITIgcjzwuA4Z1Zz-OyLt3o4Kskv86wklGZXXE3y7cKWiA2gPuWgJH4lR3kofX8L5SK1NajWlU1wgbVw5Au2iD865SuHCpZ_eL0UFYr1Q60L_enFWXYx"
+    static let fusionBaseURL = URL(string: "https://api.yelp.com/v3/")
     static let yelpRed = UIColor(red: 0.83, green: 0.14, blue: 0.14, alpha: 1.0)
+    static let yelpBlue = UIColor(red: 0.0, green: 0.45, blue: 0.73, alpha: 1.0)
+    static let yelpMediumGrey = UIColor(red: 0.90, green: 0.9, blue: 0.9, alpha: 1.0)
+    
+    static let maxDistance = 40000
+    
+    static let popular = [
+        ["name": "Offering a Deal", "code": "deals"],
+        ["name": "Open Now", "code": "open_now"],
+        ["name": "Hot and New", "code": "hot_and_new"],
+    ]
+    
+    static let distances = [
+        ["name": "Best Match", "code": ""],
+        ["name": "2 blocks", "code": "160"],
+        ["name": "6 blocks", "code": "400"],
+        ["name": "1 mile", "code": "1600"],
+        ["name": "5 miles", "code": "8000"]
+    ]
+    
+    static let sortModes = [
+        ["name": "Best Match", "code": "best_match"],
+        ["name": "Distance", "code": "distance"],
+        ["name": "Rating", "code": "rating"],
+        ["name": "Most Reviewed", "code": "review_count"]
+    ]
+    
     static let yelpCategories = [
         ["name" : "Afghan", "code": "afghani"],
         ["name" : "African", "code": "african"],

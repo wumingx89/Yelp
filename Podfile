@@ -6,7 +6,7 @@ target 'Yelp' do
   use_frameworks!
 
   # Pods for Yelp
-  pod 'AFNetworking', '~> 2.5'
-  pod 'BDBOAuth1Manager'
+  pod 'AFNetworking'
   pod 'MBProgressHUD'
+  pod 'SwiftyJSON'
 end
