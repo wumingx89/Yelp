@@ -12,6 +12,7 @@ enum CellType: String {
     case businessCell = "BusinessCell"
     case switchCell = "SwitchCell"
     case checkCell = "CheckCell"
+    case textCell = "TextCell"
 }
 
 struct Constants {

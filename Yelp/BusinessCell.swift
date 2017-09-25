@@ -36,13 +36,27 @@ class BusinessCell: UITableViewCell {
     fileprivate var business: Business! {
         didSet {
             nameLabel.text = "\(resultNumber + 1). \(business.name ?? "")"
-            thumbImageView.setImageWith(business.imageURL!)
             ratingImageView.image = BusinessCell.ratingImages[business.rating]
             distanceLabel.text = business.distance
             priceLabel.text = business.price
             addressLabel.text = business.address
             reviewsCountLabel.text = "\(business.reviewCount!) Reviews"
             categoriesLabel.text = business.categories
+            
+            thumbImageView.setImageWith(
+                URLRequest.init(url: business.imageURL!),
+                placeholderImage: nil,
+                success: { (request, response, image) in
+                    self.thumbImageView.image = image
+                    if response != nil {
+                        self.thumbImageView.alpha = 0.0
+                        UIView.animate(withDuration: 0.5, animations: {
+                            self.thumbImageView.alpha = 1.0
+                        })
+                    }
+            }) { (request, response, error) in
+                print(error.localizedDescription)
+            }
         }
     }
     

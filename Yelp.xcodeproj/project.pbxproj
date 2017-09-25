@@ -22,6 +22,8 @@
 		B91E687C1F75E5C800FC2D0F /* YelpFusionClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91E687B1F75E5C800FC2D0F /* YelpFusionClient.swift */; };
 		B91E687E1F75EF2D00FC2D0F /* Business.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91E687D1F75EF2D00FC2D0F /* Business.swift */; };
 		B91E68801F77BB1400FC2D0F /* FilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91E687F1F77BB1400FC2D0F /* FilterCell.swift */; };
+		B91E68821F787C9200FC2D0F /* TextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91E68811F787C9200FC2D0F /* TextCell.swift */; };
+		B91E68841F78B5E600FC2D0F /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91E68831F78B5E600FC2D0F /* DetailsViewController.swift */; };
 		C84F8EC0AF45015082203BEA /* Pods_Yelp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CB69A2C6E3D46C09063DC18 /* Pods_Yelp.framework */; };
 /* End PBXBuildFile section */
 
@@ -46,6 +48,8 @@
 		B91E687B1F75E5C800FC2D0F /* YelpFusionClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YelpFusionClient.swift; sourceTree = "<group>"; };
 		B91E687D1F75EF2D00FC2D0F /* Business.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Business.swift; sourceTree = "<group>"; };
 		B91E687F1F77BB1400FC2D0F /* FilterCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterCell.swift; sourceTree = "<group>"; };
+		B91E68811F787C9200FC2D0F /* TextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextCell.swift; sourceTree = "<group>"; };
+		B91E68831F78B5E600FC2D0F /* DetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +129,7 @@
 			children = (
 				B91E68381F70DAFB00FC2D0F /* BusinessesViewController.swift */,
 				B91E683F1F7248EC00FC2D0F /* FiltersViewController.swift */,
+				B91E68831F78B5E600FC2D0F /* DetailsViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -137,6 +142,7 @@
 				B91E683D1F7246C100FC2D0F /* SwitchCell.swift */,
 				B91E68751F74E39E00FC2D0F /* CheckCell.swift */,
 				B91E68771F75870A00FC2D0F /* InfiniteScrollActivityView.swift */,
+				B91E68811F787C9200FC2D0F /* TextCell.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -285,6 +291,7 @@
 			files = (
 				B91E68761F74E39E00FC2D0F /* CheckCell.swift in Sources */,
 				B91E68401F7248EC00FC2D0F /* FiltersViewController.swift in Sources */,
+				B91E68821F787C9200FC2D0F /* TextCell.swift in Sources */,
 				B91E687E1F75EF2D00FC2D0F /* Business.swift in Sources */,
 				B91E68201F70D88F00FC2D0F /* AppDelegate.swift in Sources */,
 				B91E68781F75870A00FC2D0F /* InfiniteScrollActivityView.swift in Sources */,
@@ -293,6 +300,7 @@
 				B91E683C1F722A4D00FC2D0F /* BusinessCell.swift in Sources */,
 				B91E683E1F7246C100FC2D0F /* SwitchCell.swift in Sources */,
 				B91E68421F724B9000FC2D0F /* Constants.swift in Sources */,
+				B91E68841F78B5E600FC2D0F /* DetailsViewController.swift in Sources */,
 				B91E68701F73904D00FC2D0F /* YelpFilters.swift in Sources */,
 				B91E687C1F75E5C800FC2D0F /* YelpFusionClient.swift in Sources */,
 			);

@@ -16,6 +16,7 @@ class YelpFilters {
     var attributes: Set<String>
     var sort: Int
     var distance: Int
+    var location: [String: String]
     
     init() {
         self.searchString = ""
@@ -24,6 +25,7 @@ class YelpFilters {
         self.attributes = Set<String>()
         self.sort = 0
         self.distance = 0
+        self.location = ["latitude": "37.785771", "longitude": "-122.406165"]
     }
     
     init(_ filters: YelpFilters) {
@@ -33,6 +35,7 @@ class YelpFilters {
         self.attributes = filters.attributes
         self.sort = filters.sort
         self.distance = filters.distance
+        self.location = filters.location
     }
     
     func toggleCategory(_ name: String) {

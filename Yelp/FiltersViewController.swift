@@ -41,7 +41,8 @@ class FiltersViewController: UIViewController {
         SectionStruct.normal(title: "Most Popular", cellType: .switchCell, data: Constants.popular),
         SectionStruct.expandable(title: "Distance", cellType: .checkCell, data: Constants.distances),
         SectionStruct.expandable(title: "Sort", cellType: .checkCell, data: Constants.sortModes),
-        SectionStruct.expandable(title: "Categories", cellType: .switchCell, data: Constants.yelpCategories, selected: [0, 1, 2])
+        SectionStruct.expandable(title: "Categories", cellType: .switchCell, data: Constants.yelpCategories, selected: [0, 1, 2]),
+        SectionStruct.expandable(title: "", cellType: .textCell, data: [], selected: [0])
     ]
     
     // MARK: Delegates
@@ -116,9 +117,10 @@ extension FiltersViewController: UITableViewDelegate, UITableViewDataSource {
         cell.indexPath = indexPath
         cell.filters = filters
         
-        if cellType == .checkCell {
-            let switchCell = cell as! CheckCell
-            switchCell.selectActionHandler = { [unowned self] in
+        switch cellType {
+        case .checkCell:
+            let checkCell = cell as! CheckCell
+            checkCell.selectActionHandler = { [unowned self] in
                 let expanded = FiltersViewController.tableStructure[indexPath.section].expanded
                 FiltersViewController.tableStructure[indexPath.section].expanded = !expanded
                 
@@ -136,6 +138,20 @@ extension FiltersViewController: UITableViewDelegate, UITableViewDataSource {
                 
                 self.filtersTable.reloadSections(IndexSet.init(integer: indexPath.section), with: .fade)
             }
+        case .textCell:
+            let textCell = cell as! TextCell
+            textCell.selectionHandler = {
+                FiltersViewController.tableStructure[indexPath.section  - 1].expanded = true
+                FiltersViewController.tableStructure[indexPath.section].expanded = true
+                FiltersViewController.tableStructure[indexPath.section].selected = []
+                
+                self.filtersTable.reloadSections(
+                    IndexSet.init(integersIn: indexPath.section - 1...indexPath.section),
+                    with: .fade
+                )
+            }
+        default:
+            break
         }
         
         return cell

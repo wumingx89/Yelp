@@ -20,6 +20,7 @@ class Business: NSObject {
     let categories: String?
     let distance: String?
     let reviewCount: Int!
+    var coordinates: [String: Double?]
     
     init(json: JSON) {
         name = json["name"].string
@@ -51,6 +52,12 @@ class Business: NSObject {
             distance = String.init(format: "%.2f mi", distanceMeters/1609.34)
         } else {
             distance = nil
+        }
+        
+        coordinates = [:]
+        if let coords = json["coordinates"].dictionary {
+            coordinates["latitude"] = coords["latitude"]?.double
+            coordinates["longitude"] = coords["longitude"]?.double
         }
     }
     
