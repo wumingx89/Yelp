@@ -35,12 +35,15 @@ The following **additional** features are implemented:
 - [x] Loading HUD while results are fetched
 - [x] Search results are numbered as in the actual Yelp app
 - [x] Added transition between table view and map view like in the real app
+- [x] Added in image fade in when downloaded from network
+- [x] Switched to using v3 of Yelp's APIs, which allows us to get real price info, but we do lose the neighborhood info from the v2 search API
+-
 
 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
-1.
-2.
+1. A table view could have so many different types of cells, I would like to see how they are implemented in industry and some best practices around how to represent the table structure and organize the code.
+2. It would be fun to play around with the different map sdks.
 
 ## Video Walkthrough
 
