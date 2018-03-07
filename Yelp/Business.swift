@@ -7,77 +7,73 @@
 //
 
 import Foundation
-import SwiftyJSON
 
-class Business: NSObject {
+struct SearchResult: Decodable {
+    let businesses: [Business]
+}
+
+struct Business: Decodable {
     
     let name: String?
-    let rating: Double!
+    let rating: Double?
     let price: String?
     let id: String?
-    let address: String?
+    let address: Address?
     let imageURL: URL?
-    let categories: String?
-    let distance: String?
-    let reviewCount: Int!
-    var coordinates: [String: Double?]
+    let categoriesList: [Category]?
+    let distanceMeters: Double?
+    let reviewCount: Int?
+    let coordinates: [String: Double]
     
-    init(json: JSON) {
-        name = json["name"].string
-        rating = json["rating"].double ?? 0.0
-        price = json["price"].string
-        id = json["id"].string
-        address = json["location"]["address1"].string
-        reviewCount = json["review_count"].int ?? 0
-        
-        if let urlString = json["image_url"].string {
-            imageURL = URL(string: urlString)!
-        } else {
-            imageURL = nil
-        }
-        
-        if let categoriesArray = json["categories"].array {
-            var names = [String]()
-            for category in categoriesArray {
-                if let name = category["title"].string {
-                    names.append(name)
-                }
+    private var _distance: String? = nil
+    var distance: String? {
+        mutating get {
+            if _distance == nil {
+                _distance = String(format: "%.2f mi", self.distanceMeters!/1609.34)
             }
-            categories = names.joined(separator: ", ")
-        } else {
-            categories = nil
-        }
-        
-        if let distanceMeters = json["distance"].double {
-            distance = String.init(format: "%.2f mi", distanceMeters/1609.34)
-        } else {
-            distance = nil
-        }
-        
-        coordinates = [:]
-        if let coords = json["coordinates"].dictionary {
-            coordinates["latitude"] = coords["latitude"]?.double
-            coordinates["longitude"] = coords["longitude"]?.double
+            
+            return _distance
         }
     }
     
-    static func businesses(array: [JSON]) -> [Business] {
-        var businesses = [Business]()
-        for businessJson in array {
-            businesses.append(Business(json: businessJson))
+    private var _categories: String? = nil
+    var categories: String? {
+        mutating get {
+            if _categories == nil {
+                _categories = categoriesList?.map { $0.name }.joined(separator: ", ")
+            }
+            return _categories
         }
-        return businesses
     }
     
-    public override var description: String {
-        return "Business:" +
-            "\n\tname:\(name ?? "")" +
-            "\n\trating:\(rating ?? 0)" +
-            "\n\tprice:\(price ?? "")" +
-            "\n\tid:\(id ?? "")" +
-            "\n\taddress:\(address ?? "")" +
-            "\n\tdistance:\(distance ?? "")" +
-            "\n\tcategories:\(categories ?? "")" +
-            "\n\treviews:\(reviewCount ?? 0)"
+    enum CodingKeys: String, CodingKey {
+        case name, rating, price, id
+        case address = "location"
+        case imageURL = "image_url"
+        case categoriesList = "categories"
+        case distanceMeters = "distance"
+        case reviewCount = "review_count"
+        case coordinates
+    }
+}
+
+struct Category: Decodable {
+    let alias: String
+    let name: String
+    
+    enum CodingKeys: String, CodingKey {
+        case alias
+        case name = "title"
+    }
+}
+
+struct Address: Decodable {
+    let address1: String
+    let city: String
+    let zipCode: String
+    
+    enum CodingKeys: String, CodingKey {
+        case address1, city
+        case zipCode = "zip_code"
     }
 }

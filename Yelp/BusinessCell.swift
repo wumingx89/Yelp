@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AlamofireImage
 
 class BusinessCell: UITableViewCell {
     
@@ -36,26 +37,22 @@ class BusinessCell: UITableViewCell {
     fileprivate var business: Business! {
         didSet {
             nameLabel.text = "\(resultNumber + 1). \(business.name ?? "")"
-            ratingImageView.image = BusinessCell.ratingImages[business.rating]
+            ratingImageView.image = BusinessCell.ratingImages[business.rating ?? 0.0]
             distanceLabel.text = business.distance
             priceLabel.text = business.price
-            addressLabel.text = business.address
+            addressLabel.text = business.address?.address1
             reviewsCountLabel.text = "\(business.reviewCount!) Reviews"
             categoriesLabel.text = business.categories
             
-            thumbImageView.setImageWith(
-                URLRequest.init(url: business.imageURL!),
-                placeholderImage: nil,
-                success: { (request, response, image) in
-                    self.thumbImageView.image = image
-                    if response != nil {
-                        self.thumbImageView.alpha = 0.0
-                        UIView.animate(withDuration: 0.5, animations: {
-                            self.thumbImageView.alpha = 1.0
-                        })
-                    }
-            }) { (request, response, error) in
-                print(error.localizedDescription)
+            thumbImageView.af_setImage(withURL: business.imageURL!, placeholderImage: nil) { (imageResponse) in
+                guard let image = imageResponse.value else {
+                    return
+                }
+                self.thumbImageView.image = image
+                self.thumbImageView.alpha = 0.0
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.thumbImageView.alpha = 1.0
+                })
             }
         }
     }

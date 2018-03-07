@@ -65,7 +65,7 @@ class YelpFilters {
         print("\(isOn ? "Added" : "Removed") \(code)")
     }
     
-    func setParams(params: inout [String: String]) {
+    func setParams(params: inout [String: Any]) {
         if attributes.count > 0 {
             params["attributes"] = attributes.joined(separator: ",")
         }

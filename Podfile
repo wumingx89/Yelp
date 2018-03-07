@@ -7,5 +7,6 @@ target 'Yelp' do
 
   # Pods for Yelp
   pod 'Alamofire'
+  pod 'AlamofireImage'
   pod 'MBProgressHUD'
 end

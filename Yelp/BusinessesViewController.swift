@@ -80,7 +80,7 @@ class BusinessesViewController: UIViewController {
         if let lat = business.coordinates["latitude"], let lon = business.coordinates["longitude"] {
             let annotation = MKPointAnnotation()
             annotation.title = "\(index). \(business.name ?? "")"
-            annotation.coordinate = CLLocationCoordinate2D(latitude: lat!, longitude: lon!)
+            annotation.coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lon)
             mapView.addAnnotation(annotation)
         }
     }
