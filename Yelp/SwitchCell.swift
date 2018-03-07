@@ -21,15 +21,15 @@ class SwitchCell: FilterCell {
         selectionStyle = .none
     }
     
-    func toggleAttribute() {
+    @objc func toggleAttribute() {
         filters.toggleAttribute(onSwitch.isOn, code: code)
     }
     
-    func toggleCategory() {
+    @objc func toggleCategory() {
         filters.toggleCategory(row: indexPath.row, isOn: onSwitch.isOn)
     }
     
-    func toggleOpenNow() {
+    @objc func toggleOpenNow() {
         filters.openNow = onSwitch.isOn
     }
     
