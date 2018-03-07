@@ -21,7 +21,7 @@ class TextCell: FilterCell {
         addGestureRecognizer(tapGesture)
     }
 
-    func didTap() {
+    @objc func didTap() {
         selectionHandler()
     }
 }

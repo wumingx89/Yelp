@@ -48,7 +48,7 @@ class CheckCell: FilterCell {
         settingLabel.text = data["name"]
     }
     
-    func didTap() {
+    @objc func didTap() {
         selectActionHandler()
     }
 }
